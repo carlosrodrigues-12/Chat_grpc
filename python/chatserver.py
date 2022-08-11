@@ -1,10 +1,9 @@
 #from socket  import *
 #import pickle
+import logging
 from concurrent import futures
 import logging
-
 import grpc
-#import grpc_reflection.v1alpha import reflection
 import chatserver_pb2
 import chatserver_pb2_grpc
 import const #- addresses, port numbers etc. (a rudimentary way to replace a proper naming service)
@@ -70,11 +69,6 @@ while True:
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     chatserver_pb2_grpc.add_ChatServiceServicer_to_server(ChatService(), server)
-    SERVICE_NAMES = (
-        chatserver_pb2.DESCRIPTOR.services_by_name['ChatService'].full_name,
-        reflection.SERVICE_NAME,
-    )
-    reflection.enable_server_reflection(SERVICE_NAMES, server)
     server.add_insecure_port('[::]:50051')
     server.start()
     server.wait_for_termination()

@@ -13,8 +13,6 @@ service ChatService {
 
 message MessageData {
     string dest_ip = 1;
-    #string dest_port = 2;
-    #string msg = 3;
 }
 
 message ForwardMessage {

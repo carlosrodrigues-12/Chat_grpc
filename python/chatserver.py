@@ -4,7 +4,7 @@ from concurrent import futures
 import logging
 
 import grpc
-import grpc_reflection.v1alpha import reflection
+#import grpc_reflection.v1alpha import reflection
 import chatserver_pb2
 import chatserver_pb2_grpc
 import const #- addresses, port numbers etc. (a rudimentary way to replace a proper naming service)

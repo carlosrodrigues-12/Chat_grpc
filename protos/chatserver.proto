@@ -7,14 +7,14 @@ option objc_class_prefix = "CS";
 
 package chat_service;
 
-service ChatService {
+service Message {
   rpc SendMessage (MessageData) returns (ForwardMessage) {}
 }
 
 message MessageData {
-    string dest_ip = 1;
+  string name = 1;
 }
 
 message ForwardMessage {
-  string message_data = 1;
+  string message = 1;
 }

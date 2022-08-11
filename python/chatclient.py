@@ -1,9 +1,16 @@
-from socket  import *
+#from socket  import *
 import sys
-import pickle
+#import pickle
+import __future__ import print_function
+import logging
+
 import threading
+import grpc
+import chatserver_pb2
+import chatserver_pb2_grpc
 import const #- addresses, port numbers etc. (a rudimentary way to replace a proper naming service)
 
+"""
 class RecvHandler(threading.Thread):
   def __init__(self, sock):
     threading.Thread.__init__(self)
@@ -20,20 +27,28 @@ class RecvHandler(threading.Thread):
         conn.send(pickle.dumps("ACK")) # simply send the server an Ack to confirm
         conn.close()
     return # We need a condition for graceful termination
+"""
 
 me = str(sys.argv[1]) # User's name (as registered in the registry. E.g., Alice, Bob, ...)
-client_sock = socket(AF_INET, SOCK_STREAM) # socket for server to connect to this client
+#client_sock = socket(AF_INET, SOCK_STREAM) # socket for server to connect to this client
 my_ip = const.registry[me][0]   # If using a proper naming service, client should know its
 my_port = const.registry[me][1] # addresses (which it would register in the ns)
-client_sock.bind((my_ip, my_port))
-client_sock.listen(5)
+#client_sock.bind((my_ip, my_port))
+#client_sock.listen(5)
 #
 # Put receiving thread to run
-recv_handler = RecvHandler(client_sock)
-recv_handler.start()
+#recv_handler = RecvHandler(client_sock)
+#recv_handler.start()
 #
 # Handle interactive loop
-while True:
+
+def run():
+    with grpc.insecure_channel('172.17.0.2:50051') as channel:
+        stub = chatserver_pb2_grpc.ChatServiceStub(channel)
+        response = stub.SendMessage(chatserver_pb2.ForwardMessage(dest_ip='172.17.0.3'))
+    print("Send message: " + response.message)
+
+"""while True:
     server_sock = socket(AF_INET, SOCK_STREAM) # socket to connect to server
     dest = input("ENTER DESTINATION: ")
     msg = input("ENTER MESSAGE: ")
@@ -57,3 +72,8 @@ while True:
         #print("Received Ack from server")
         pass
     server_sock.close()
+"""
+
+if __name__ == '__main__':
+    logging.basicConfig()
+    run()

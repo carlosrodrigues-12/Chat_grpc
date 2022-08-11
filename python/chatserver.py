@@ -1,18 +1,30 @@
-from socket  import *
-import pickle
-import const #- addresses, port numbers etc. (a rudimentary way to replace a proper naming service)
+#from socket  import *
+#import pickle
+from concurrent import futures
+import logging
 
+import grpc
+import grpc_reflection.v1alpha import reflection
+import chatserver_pb2
+import chatserver_pb2_grpc
+import const #- addresses, port numbers etc. (a rudimentary way to replace a proper naming service)
+"""
 server_sock = socket(AF_INET, SOCK_STREAM) # socket for clients to connect to this server
 server_sock.bind((const.CHAT_SERVER_HOST, const.CHAT_SERVER_PORT))
 server_sock.listen(5) # may change if too many clients
+"""
+class ChatService(chatserver_pb2_grpc.ChatServiceServicer):
+
+    def SendMessage(self, request, context):
+        return chatserver_pb2.ForwardMessage(message_data='Message forward for' % request.name)
 
 print("Chat Server is ready...")
-
+"""
 while True:
     #
     # Get a message from a sender client
     (conn, addr) = server_sock.accept()  # returns new socket and addr. client
-    
+
     #print("Chat Server: client is connected from address " + str(addr))
 
     marshaled_msg_pack = conn.recv(1024)   # receive data from client
@@ -53,6 +65,21 @@ while True:
         #print("Server: Received Ack from client")
         pass
     client_sock.close()
+"""
+
+def serve():
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    chatserver_pb2_grpc.add_ChatServiceServicer_to_server(ChatService(), server)
+    SERVICE_NAMES = (
+        chatserver_pb2.DESCRIPTOR.services_by_name['ChatService'].full_name,
+        reflection.SERVICE_NAME,
+    )
+    reflection.enable_server_reflection(SERVICE_NAMES, server)
+    server.add_insecure_port('[::]:50051')
+    server.start()
+    server.wait_for_termination()
 
 
-
+if __name__ == '__main__':
+    logging.basicConfig()
+    serve()

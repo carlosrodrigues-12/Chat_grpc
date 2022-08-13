@@ -19,6 +19,7 @@ class Message(chatserver_pb2_grpc.MessageServicer):
         # dest_addr = request.dest
         # print(request.dest)
         # print(request.name)
+        print(request.message, request.name)
         return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
 
 def Recv():
@@ -32,14 +33,15 @@ def run(dest, msg):
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
+
     dest_addr = const.registry[dest]
-    print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
-    print(f"ADDR -> {dest_addr}")
+    # print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
+    # print(f"ADDR -> {dest_addr}")
     with grpc.insecure_channel(const.CHAT_SERVER_HOST) as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
-        #response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=msg))
+        response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=msg))
         #print(response)
-    #print("Greeter client received: " + response.message)
+    print("Greeter client received: " + response.message)
 
 if __name__ == '__main__':
     logging.basicConfig()

@@ -15,11 +15,11 @@ import chatserver_pb2_grpc
 class Message(chatserver_pb2_grpc.MessageServicer):
 
     def SendMessage(self, request, context):
-        # Print name
-        # dest_addr = request.dest
-        # print(request.dest)
-        # print(request.name)
+        
+        print(request.dest)
         print(request.name)
+        print(f"MESSAGE FROM: Cliente teste - TO: {request.dest}\n")
+        print(f"MESSAGE: {request.name}")
         return chatserver_pb2.StatusMessage(message='Return Client')
 
 def Recv():

@@ -19,7 +19,7 @@ def run(dest, msg):
     print(f"ADDR -> {dest_addr}")
     with grpc.insecure_channel('172.17.0.2:50051') as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
-        response = stub.SendMessage(chatserver_pb2.MessageData(name=dest))
+        response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=msg))
         #print(response)
     #print("Greeter client received: " + response.message)
 

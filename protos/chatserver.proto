@@ -12,7 +12,8 @@ service Message {
 }
 
 message MessageData {
-  string name = 1;
+  string dest = 1;
+  string name = 2;
 }
 
 message ForwardMessage {

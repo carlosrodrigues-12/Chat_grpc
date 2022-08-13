@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 from concurrent import futures
+from time import sleep
 import logging
 import threading
 import const
@@ -12,7 +13,9 @@ import chatserver_pb2
 import chatserver_pb2_grpc
 
 def Recv():
-    print("Hello!")
+    while True:
+        print("Hello!")
+        sleep(7)
 
 """class RecvHandler(threading.Thread):
   def __init__(self, sock):

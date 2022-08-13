@@ -47,11 +47,9 @@ def run(dest, msg):
 if __name__ == '__main__':
     logging.basicConfig()
 
-    # recv_handler = RecvHandler(client_sock)
-    # recv_handler.start()
-    # recv = threading.Thread(target=Recv)
-    # recv.start()
-    Recv()
+    recv = threading.Thread(target=Recv)
+    recv.daemon = True
+    recv.start()
 
     while True:
         dest = input("ENTER DESTINATION: ")

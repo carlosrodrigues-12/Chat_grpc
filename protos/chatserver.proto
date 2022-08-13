@@ -8,7 +8,11 @@ option objc_class_prefix = "CS";
 package chat_service;
 
 service Message {
-  rpc SendMessage (MessageData) returns (ForwardMessage) {}
+  rpc SendMessage (MessageData) returns (StatusMessage) {}
+}
+
+service Message {
+  rpc ForwardMessage (MessageData) returns (StatusMessage) {}
 }
 
 message MessageData {
@@ -16,6 +20,6 @@ message MessageData {
   string name = 2;
 }
 
-message ForwardMessage {
+message StatusMessage {
   string message = 1;
 }

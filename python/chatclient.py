@@ -20,7 +20,7 @@ class Message(chatserver_pb2_grpc.MessageServicer):
         # print(request.dest)
         # print(request.name)
         print(request.name)
-        return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
+        # return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
 
 def Recv():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -41,7 +41,7 @@ def run(dest, msg):
         stub = chatserver_pb2_grpc.MessageStub(channel)
         response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=msg))
         #print(response)
-    print("Greeter client received: " + response.message)
+        print("Greeter client received: " + response.message)
 
 if __name__ == '__main__':
     logging.basicConfig()

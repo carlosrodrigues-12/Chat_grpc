@@ -18,7 +18,8 @@ class Message(chatserver_pb2_grpc.MessageServicer):
         
         with grpc.insecure_channel(dest_addr) as channel:
             stub = chatserver_pb2_grpc.MessageStub(channel)
-            #response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=msg))
+            response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=request.name))
+            print(response)
         #return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
 
 

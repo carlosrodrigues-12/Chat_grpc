@@ -11,6 +11,8 @@ import chatserver_pb2_grpc
 class Message(chatserver_pb2_grpc.MessageServicer):
 
     def SendMessage(self, request, context):
+        # Print name
+        print(request.name)
         return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
 
 

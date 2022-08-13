@@ -11,6 +11,15 @@ import grpc
 import chatserver_pb2
 import chatserver_pb2_grpc
 
+class Th(threading.Thread):
+    def __init__ (self, num):
+        threading.Thread.__init__(self)
+        self.num = num
+
+    def run(self):
+        print("Hello!")
+        print(self.num)
+
 """class RecvHandler(threading.Thread):
   def __init__(self, sock):
     threading.Thread.__init__(self)
@@ -62,6 +71,7 @@ if __name__ == '__main__':
 
     # recv_handler = RecvHandler(client_sock)
     # recv_handler.start()
+    Th.start()
 
     while True:
         dest = input("ENTER DESTINATION: ")

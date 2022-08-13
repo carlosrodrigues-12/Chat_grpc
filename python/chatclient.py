@@ -15,7 +15,9 @@ def run():
     # of the code.
     with grpc.insecure_channel('172.17.0.2:50051') as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
+        print(stub)
         response = stub.SendMessage(chatserver_pb2.MessageData(name='you'))
+        print(response)
     print("Greeter client received: " + response.message)
 
 

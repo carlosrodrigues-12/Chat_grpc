@@ -29,6 +29,7 @@ def Recv():
     server.add_insecure_port('[::]:50051')
     server.start()
     server.wait_for_termination()
+    print('Finaly')
 
 def run(dest, msg):
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be

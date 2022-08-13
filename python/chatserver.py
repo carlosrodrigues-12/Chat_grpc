@@ -12,9 +12,14 @@ class Message(chatserver_pb2_grpc.MessageServicer):
 
     def SendMessage(self, request, context):
         # Print name
+        dest_addr = request.dest
         print(request.dest)
         print(request.name)
-        return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
+        
+        with grpc.insecure_channel(dest_addr) as channel:
+            stub = chatserver_pb2_grpc.MessageStub(channel)
+            #response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=msg))
+        #return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
 
 
 def serve():

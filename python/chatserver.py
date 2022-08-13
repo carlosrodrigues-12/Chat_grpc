@@ -15,13 +15,13 @@ class Message(chatserver_pb2_grpc.MessageServicer):
         dest_addr = request.dest
         print(request.dest)
         print(request.name)
-        return chatserver_pb2.StatusMessage(message='Return')
         
-        # with grpc.insecure_channel(dest_addr) as channel:
-            # stub = chatserver_pb2_grpc.MessageStub(channel)
-            # response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=request.name))
-            # print(response)
-        #return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
+        with grpc.insecure_channel(dest_addr) as channel:
+            stub = chatserver_pb2_grpc.MessageStub(channel)
+            response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=request.name))
+            print(response)
+
+        return chatserver_pb2.StatusMessage(message='Return Server')
 
 
 def serve():

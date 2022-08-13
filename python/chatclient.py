@@ -23,6 +23,7 @@ class Message(chatserver_pb2_grpc.MessageServicer):
         return chatserver_pb2.StatusMessage(message='Return Client')
 
 def Recv():
+    print('Recv execute...')
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     chatserver_pb2_grpc.add_MessageServicer_to_server(Message(), server)
     server.add_insecure_port('[::]:50051')
@@ -48,8 +49,8 @@ if __name__ == '__main__':
 
     # recv_handler = RecvHandler(client_sock)
     # recv_handler.start()
-    # thread = threading.Thread(target=Recv)
-    # thread.start()
+    recv = threading.Thread(target=Recv)
+    recv.start()
 
     while True:
         dest = input("ENTER DESTINATION: ")

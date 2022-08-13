@@ -14,8 +14,10 @@ service Message {
 }
 
 message MessageData {
-  string dest = 1;
-  string name = 2;
+  string remt = 1;
+  string dest = 2;
+  string ip_dest = 3;
+  string msg = 4;
 }
 
 message StatusMessage {

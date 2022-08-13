@@ -7,16 +7,16 @@ import grpc
 import chatserver_pb2
 import chatserver_pb2_grpc
 
-def Forward(dest, msg):
+def Forward(remt,dest,ip_dest,msg):
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
 
     print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
     # print(f"ADDR -> {dest_addr}")
-    with grpc.insecure_channel(dest) as channel:
+    with grpc.insecure_channel(ip_dest) as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
-        response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest,name=msg))
+        response = stub.SendMessage(chatserver_pb2.MessageData(remt=remt,dest=dest,ip_dest=ip_dest,msg=msg))
         #print(response)
         print("Greeter client received: " + response.message)
 
@@ -24,11 +24,8 @@ class Message(chatserver_pb2_grpc.MessageServicer):
 
     def SendMessage(self, request, context):
         # Print name
-        dest_addr = request.dest
-        print(request.dest)
-        print(request.name)
         
-        Forward(dest_addr,request.name)
+        Forward(request.remt,request.dest,request.ip_dest,request.msg)
 
         return chatserver_pb2.StatusMessage(message='Return Server')
 

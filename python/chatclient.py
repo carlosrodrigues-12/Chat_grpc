@@ -7,6 +7,7 @@ from time import sleep
 import logging
 import threading
 import const
+import sys
 
 import grpc
 import chatserver_pb2
@@ -16,33 +17,31 @@ class Message(chatserver_pb2_grpc.MessageServicer):
 
     def SendMessage(self, request, context):
         
-        print(request.dest)
-        print(request.name)
-        print(f"MESSAGE FROM: Cliente teste - TO: {request.dest}\n")
-        print(f"MESSAGE: {request.name}")
+        print('\n')
+        print(f"MESSAGE FROM: {request.remt} - TO: {request.dest}")
+        print(f"MESSAGE: {request.msg}\n")
         return chatserver_pb2.StatusMessage(message='Return Client')
 
 def Recv():
-    print('Server-Client Init')
+    #print('Server-Client Init')
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     chatserver_pb2_grpc.add_MessageServicer_to_server(Message(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
     server.wait_for_termination()
 
-def run(dest, msg):
+def run(remt,dest,ip_dest,msg):
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
 
-    dest_addr = const.registry[dest]
-    print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
+    #print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
     # print(f"ADDR -> {dest_addr}")
     with grpc.insecure_channel(const.CHAT_SERVER_HOST) as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
-        response = stub.SendMessage(chatserver_pb2.MessageData(dest=dest_addr,name=msg))
+        response = stub.SendMessage(chatserver_pb2.MessageData(remt=remt,dest=dest,ip_dest=ip_dest,msg=msg))
         #print(response)
-        print("Greeter client received: " + response.message)
+     #   print("Greeter client received: " + response.message)
 
 if __name__ == '__main__':
     logging.basicConfig()
@@ -51,7 +50,12 @@ if __name__ == '__main__':
     recv.daemon = False
     recv.start()
 
+    remt = str(sys.argv[1])
+    print(remt)
+
     while True:
         dest = input("ENTER DESTINATION: ")
         msg = input("ENTER MESSAGE: ")
-        run(dest,msg)
+        ip_dest = const.registry[dest]
+        print(ip_dest)
+        run(remt,dest,ip_dest,msg)

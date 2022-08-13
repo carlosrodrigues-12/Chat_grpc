@@ -45,7 +45,7 @@ def run(remt,dest,ip_dest,msg):
 
 def inputdados():
     dest = input("ENTER DESTINATION: ")
-    print(dest)
+    # print(dest)
     msg = input("ENTER MESSAGE: ")
     return dest,msg
 
@@ -60,7 +60,8 @@ if __name__ == '__main__':
     print(remt)
 
     while True:
-        dest,msg=inputdados()
+        if(input()=='\n'):
+            dest,msg=inputdados()
         ip_dest = const.registry[dest]
         # print(ip_dest)
         run(remt,dest,ip_dest,msg)

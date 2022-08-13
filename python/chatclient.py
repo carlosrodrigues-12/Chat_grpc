@@ -48,7 +48,7 @@ if __name__ == '__main__':
     logging.basicConfig()
 
     recv = threading.Thread(target=Recv)
-    recv.daemon = True
+    recv.daemon = False
     recv.start()
 
     while True:

@@ -9,9 +9,7 @@ package chat_service;
 
 service Message {
   rpc SendMessage (MessageData) returns (StatusMessage) {}
-}
 
-service Message {
   rpc ForwardMessage (MessageData) returns (StatusMessage) {}
 }
 

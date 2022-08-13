@@ -20,7 +20,7 @@ class Message(chatserver_pb2_grpc.MessageServicer):
         # print(request.dest)
         # print(request.name)
         print(request.name)
-        # return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
+        return chatserver_pb2.StatusMessage(message='Return Client')
 
 def Recv():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -35,7 +35,7 @@ def run(dest, msg):
     # of the code.
 
     dest_addr = const.registry[dest]
-    # print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
+    print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
     # print(f"ADDR -> {dest_addr}")
     with grpc.insecure_channel(const.CHAT_SERVER_HOST) as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
@@ -48,8 +48,8 @@ if __name__ == '__main__':
 
     # recv_handler = RecvHandler(client_sock)
     # recv_handler.start()
-    thread = threading.Thread(target=Recv)
-    thread.start()
+    # thread = threading.Thread(target=Recv)
+    # thread.start()
 
     while True:
         dest = input("ENTER DESTINATION: ")

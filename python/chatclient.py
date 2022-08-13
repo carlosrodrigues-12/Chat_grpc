@@ -14,7 +14,9 @@ def run(dest, msg):
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
+    dest_addr = const.registry[dest]
     print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
+    print(f"ADDR -> {dest_addr}")
     with grpc.insecure_channel('172.17.0.2:50051') as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
         response = stub.SendMessage(chatserver_pb2.MessageData(name=dest))

@@ -60,8 +60,7 @@ if __name__ == '__main__':
     print(remt)
 
     while True:
-        while (input()=='S'):
-            dest,msg=inputdados()
-            ip_dest = const.registry[dest]
+        dest,msg=inputdados()
+        ip_dest = const.registry[dest]
         # print(ip_dest)
         run(remt,dest,ip_dest,msg)

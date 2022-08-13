@@ -17,22 +17,13 @@ class Message(chatserver_pb2_grpc.MessageServicer):
 
 
 def serve():
-    print('Init')
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    print(server)
     chatserver_pb2_grpc.add_MessageServicer_to_server(Message(), server)
-    print('Function add server')
     server.add_insecure_port('[::]:50051')
-    print('Add server - IP/Port')
     server.start()
-    print('Start server')
     server.wait_for_termination()
-    print('Server terminated')
 
 
 if __name__ == '__main__':
-    print('Main - Init')
     logging.basicConfig()
-    print('Logging - Basic Config')
     serve()
-    print('Call serve')

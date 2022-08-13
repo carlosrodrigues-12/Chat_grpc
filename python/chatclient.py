@@ -17,16 +17,13 @@ def run(dest, msg):
     print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
     with grpc.insecure_channel('172.17.0.2:50051') as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
-        print(stub)
         response = stub.SendMessage(chatserver_pb2.MessageData(name='you'))
-        print(response)
-    print("Greeter client received: " + response.message)
+        #print(response)
+    #print("Greeter client received: " + response.message)
 
 
 if __name__ == '__main__':
     logging.basicConfig()
-    print(logging.basicConfig)
-
     while True:
         dest = input("ENTER DESTINATION: ")
         msg = input("ENTER MESSAGE: ")

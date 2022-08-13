@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
     # recv_handler = RecvHandler(client_sock)
     # recv_handler.start()
-    Th.start()
+    Th.start(1)
 
     while True:
         dest = input("ENTER DESTINATION: ")

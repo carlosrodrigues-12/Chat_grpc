@@ -19,7 +19,7 @@ class Message(chatserver_pb2_grpc.MessageServicer):
         # dest_addr = request.dest
         # print(request.dest)
         # print(request.name)
-        print(request.message, request.name)
+        print(request.name)
         return chatserver_pb2.ForwardMessage(message='Hello, %s!' % request.name)
 
 def Recv():

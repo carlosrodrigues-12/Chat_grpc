@@ -12,13 +12,13 @@ def Forward(remt,dest,ip_dest,msg):
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
 
-    print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
+    print(f"FROM: {remt} - DESTINATION -> {dest} || MESSAGE -> {msg}")
     # print(f"ADDR -> {dest_addr}")
     with grpc.insecure_channel(ip_dest) as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
         response = stub.SendMessage(chatserver_pb2.MessageData(remt=remt,dest=dest,ip_dest=ip_dest,msg=msg))
         #print(response)
-        print("Greeter client received: " + response.message)
+        print("Client received: " + response.message)
 
 class Message(chatserver_pb2_grpc.MessageServicer):
 
@@ -40,4 +40,5 @@ def serve():
 
 if __name__ == '__main__':
     logging.basicConfig()
+    print('\n')
     serve()

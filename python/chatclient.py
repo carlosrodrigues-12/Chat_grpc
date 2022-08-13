@@ -23,13 +23,13 @@ class Message(chatserver_pb2_grpc.MessageServicer):
         return chatserver_pb2.StatusMessage(message='Return Client')
 
 def Recv():
-    print('Recv execute...')
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    chatserver_pb2_grpc.add_MessageServicer_to_server(Message(), server)
-    server.add_insecure_port('[::]:50051')
-    server.start()
-    server.wait_for_termination()
-    print('Finaly')
+    while True:
+        print('Thread Init')
+        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+        chatserver_pb2_grpc.add_MessageServicer_to_server(Message(), server)
+        server.add_insecure_port('[::]:50051')
+        server.start()
+        server.wait_for_termination()
 
 def run(dest, msg):
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be

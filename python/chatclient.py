@@ -4,17 +4,17 @@ from __future__ import print_function
 
 import logging
 import const
-import sys
 
 import grpc
 import chatserver_pb2
 import chatserver_pb2_grpc
 
 
-def run():
+def run(dest, msg):
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
+    print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
     with grpc.insecure_channel('172.17.0.2:50051') as channel:
         stub = chatserver_pb2_grpc.MessageStub(channel)
         print(stub)
@@ -26,7 +26,8 @@ def run():
 if __name__ == '__main__':
     logging.basicConfig()
     print(logging.basicConfig)
-    me = str(sys.argv[1]) # User's name (as registered in the registry. E.g., Alice, Bob, ...)
-    my_ip = const.registry[me]   # If using a proper naming service, client should know its
-    print(f"Args -> {me} - IP {my_ip}")
-    run()
+
+    while True:
+        dest = input("ENTER DESTINATION: ")
+        msg = input("ENTER MESSAGE: ")
+        run(dest,msg)

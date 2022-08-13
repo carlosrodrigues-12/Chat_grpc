@@ -45,6 +45,7 @@ def run(remt,dest,ip_dest,msg):
 
 def inputdados():
     dest = input("ENTER DESTINATION: ")
+    print(dest)
     msg = input("ENTER MESSAGE: ")
     return dest,msg
 

@@ -1,7 +1,4 @@
-"""The Python implementation of the GRPC helloworld.Greeter client."""
-
 from __future__ import print_function
-
 from concurrent import futures
 from time import sleep
 import logging
@@ -31,9 +28,6 @@ def Recv():
     server.wait_for_termination()
 
 def run(remt,dest,ip_dest,msg):
-    # NOTE(gRPC Python Team): .close() is possible on a channel and should be
-    # used in circumstances in which the with statement does not fit the needs
-    # of the code.
 
     #print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
     # print(f"ADDR -> {dest_addr}")
@@ -41,11 +35,9 @@ def run(remt,dest,ip_dest,msg):
         stub = chatserver_pb2_grpc.MessageStub(channel)
         response = stub.SendMessage(chatserver_pb2.MessageData(remt=remt,dest=dest,ip_dest=ip_dest,msg=msg))
         #print(response)
-     #   print("Greeter client received: " + response.message)
 
 def inputdados():
     dest = input("ENTER DESTINATION: ")
-    # print(dest)
     msg = input("ENTER MESSAGE: ")
     return dest,msg
 
@@ -62,5 +54,4 @@ if __name__ == '__main__':
     while True:
         dest,msg=inputdados()
         ip_dest = const.registry[dest]
-        # print(ip_dest)
         run(remt,dest,ip_dest,msg)

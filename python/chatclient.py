@@ -11,9 +11,8 @@ import grpc
 import chatserver_pb2
 import chatserver_pb2_grpc
 
-def Recv(self):
+def Recv():
     print("Hello!")
-    print(self.num)
 
 """class RecvHandler(threading.Thread):
   def __init__(self, sock):
